@@ -52,17 +52,19 @@ class MainViewModel: ViewModel() {
     }
 
     fun onClickedRecoveryItem(item: Item) {
-        if (!dumpItems.any { it.id == item.id }) {
-            Log.e("onClickedRecoveryItem", "Item ${item.id} not found in dump items, ignoring")
-            return
+        if(!item.isActive) {
+            if (!dumpItems.any { it.id == item.id }) {
+                Log.e("onClickedRecoveryItem", "Item ${item.id} not found in dump items, ignoring")
+                return
+            }
+
+            startCountDown(item, category = Category.Normal, handleCountdownFinished = {
+                _dumpItems.removeAll { it.id == item.id }
+                _items.add(item)
+
+                sortAllList()
+            })
         }
-
-        startCountDown(item, category = Category.Normal, handleCountdownFinished = {
-            _dumpItems.removeAll { it.id == item.id }
-            _items.add(item)
-
-            sortAllList()
-        })
     }
 
     fun onClickedCancelItem(item: Item) {
