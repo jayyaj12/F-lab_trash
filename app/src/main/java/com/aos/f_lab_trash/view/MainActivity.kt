@@ -50,40 +50,38 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Flab_trashTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        Header()
-                        HorizontalDivider(
-                            Modifier, DividerDefaults.Thickness, DividerDefaults.color
-                        )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                        ) {
-                            ListScreen(
-                                Modifier.weight(1f),
-                                items = viewModel.items,
-                                onClickedDumpItem = { item ->
-                                    viewModel.onClickedDumpItem(item)
-                                },
-                                onCanceledDupItem = { item ->
-                                    viewModel.onClickedCancelItem(item)
-                                })
+                val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+                Column {
+                    Header()
+                    HorizontalDivider(
+                        Modifier, DividerDefaults.Thickness, DividerDefaults.color
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        ListScreen(
+                            Modifier.weight(1f),
+                            items = viewModel.items,
+                            onClickedDumpItem = { item ->
+                                viewModel.onClickedDumpItem(item)
+                            },
+                            onCanceledDupItem = { item ->
+                                viewModel.onClickedCancelItem(item)
+                            })
 
-                            XmlListScreen(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .clipToBounds(),
-                                items = viewModel.dumpItems.toList(),
-                                onClickedRecoveryItem = { item ->
-                                    viewModel.onClickedRecoveryItem(item)
-                                },
-                                onCanceledRecoveryItem = { item ->
-                                    viewModel.onClickedCancelItem(item)
-                                })
-                        }
+                        XmlListScreen(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clipToBounds(),
+                            items = viewModel.dumpItems.toList(),
+                            onClickedRecoveryItem = { item ->
+                                viewModel.onClickedRecoveryItem(item)
+                            },
+                            onCanceledRecoveryItem = { item ->
+                                viewModel.onClickedCancelItem(item)
+                            })
                     }
                 }
             }
@@ -176,20 +174,20 @@ fun XmlListScreen(
 ) {
     AndroidView(
         factory = { context ->
-        RecyclerView(context).apply {
-            layoutManager = LinearLayoutManager(context)
-            // LazyColumn과 동일하게 패딩 제거
-            setPadding(0, 0, 0, 0)
-            adapter = ListAdapter(
-                onClickedRecoveryItem = onClickedRecoveryItem,
-                onCanceledRecoveryItem = onCanceledRecoveryItem
-            )
-            addItemDecoration(
-                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-            )
-        }
-    }, update = { recyclerView ->
-        (recyclerView.adapter as ListAdapter).submitList(items)
-    }, modifier = modifier
+            RecyclerView(context).apply {
+                layoutManager = LinearLayoutManager(context)
+                // LazyColumn과 동일하게 패딩 제거
+                setPadding(0, 0, 0, 0)
+                adapter = ListAdapter(
+                    onClickedRecoveryItem = onClickedRecoveryItem,
+                    onCanceledRecoveryItem = onCanceledRecoveryItem
+                )
+                addItemDecoration(
+                    DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+                )
+            }
+        }, update = { recyclerView ->
+            (recyclerView.adapter as ListAdapter).submitList(items)
+        }, modifier = modifier
     )
 }
