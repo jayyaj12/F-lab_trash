@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Chat history files
+ChatHistory/
+.chat_history/
+*.chat
+chat_history.txt
+ChatHistory_schema_v2.xml
