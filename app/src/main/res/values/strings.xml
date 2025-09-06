@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">F-lab_trash</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
