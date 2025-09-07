@@ -3,23 +3,12 @@ package com.aos.f_lab_trash.view.ui.theme
 data class Item(
     val id: Int,
     val name: String,
-    var isActive: Boolean = false,
-    var countdownSeconds: Int? = null,
-    var category: Category = Category.Normal
+    val countdownSeconds: Int? = null,
+    var category: Category = Category.NORMAL
 )
 
-sealed class Category(val type: Type) {
-    object Normal : Category(Type.NORMAL)
-    object Dump : Category(Type.DUMP)
+enum class Category {
+    NORMAL, DUMP;
 
-    fun getCompareType(): Type {
-        return when (this) {
-            Normal -> Type.DUMP
-            Dump -> Type.NORMAL
-        }
-    }
-}
-
-enum class Type {
-    NORMAL, DUMP
+    fun opposite(): Category = if (this == NORMAL) DUMP else NORMAL
 }

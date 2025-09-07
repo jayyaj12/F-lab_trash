@@ -27,17 +27,27 @@ class ListAdapter(
 
     inner class ViewHolder(private val binding: ItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.ivDump.setOnClickListener {
+                val pos = adapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    onClickedRecoveryItem(getItem(pos))
+                }
+            }
+            binding.btnCancel.setOnClickListener {
+                val pos = adapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    onCanceledRecoveryItem(getItem(pos))
+                }
+            }
+        }
+
         fun onBind(item: Item) {
             binding.tvName.text = item.name
             binding.tvCountdown.text = item.countdownSeconds?.let {
                 "${it}초 후 복구"
             } ?: "대기중"
-            binding.ivDump.setOnClickListener {
-                onClickedRecoveryItem(item)
-            }
-            binding.btnCancel.setOnClickListener {
-                onCanceledRecoveryItem(item)
-            }
         }
     }
 

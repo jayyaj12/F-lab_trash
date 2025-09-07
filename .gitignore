@@ -19,3 +19,5 @@ ChatHistory/
 *.chat
 chat_history.txt
 ChatHistory_schema_v2.xml
+/.idea
+
