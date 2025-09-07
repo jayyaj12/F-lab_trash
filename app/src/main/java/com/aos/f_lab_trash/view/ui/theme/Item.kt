@@ -3,7 +3,6 @@ package com.aos.f_lab_trash.view.ui.theme
 data class Item(
     val id: Int,
     val name: String,
-    var isActive: Boolean = false,
     var countdownSeconds: Int? = null,
     var category: Category = Category.Normal
 )
