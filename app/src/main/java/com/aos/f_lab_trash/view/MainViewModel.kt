@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aos.f_lab_trash.view.ui.theme.Category
 import com.aos.f_lab_trash.view.ui.theme.Item
-import com.aos.f_lab_trash.view.ui.theme.Type
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -57,7 +56,7 @@ class MainViewModel : ViewModel() {
 
                     startCountDown(
                         item,
-                        category = Category.Dump,
+                        category = Category.DUMP,
                         handleCountdownFinished = {
                             // countdown 끝났을 때만 실행되는 후처리
                             _items.removeAll { it.id == item.id }
@@ -83,7 +82,7 @@ class MainViewModel : ViewModel() {
                 try {
                     val done = CompletableDeferred<Unit>()
 
-                    startCountDown(item, category = Category.Normal, handleCountdownFinished = {
+                    startCountDown(item, category = Category.NORMAL, handleCountdownFinished = {
                         _dumpItems.removeAll { it.id == item.id }
                         _items.add(item)
 
@@ -126,9 +125,9 @@ class MainViewModel : ViewModel() {
     }
 
     private fun updateItem(itemId: Int, category: Category, transform: (Item) -> Item) {
-        val list = when (category.getCompareType()) {
-            Type.NORMAL -> _items
-            Type.DUMP -> _dumpItems
+        val list = when (category.opposite()) {
+            Category.NORMAL -> _items
+            Category.DUMP -> _dumpItems
         }
 
         val idx = list.indexOfFirst { it.id == itemId }

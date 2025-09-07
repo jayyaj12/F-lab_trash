@@ -4,21 +4,11 @@ data class Item(
     val id: Int,
     val name: String,
     val countdownSeconds: Int? = null,
-    var category: Category = Category.Normal
+    var category: Category = Category.NORMAL
 )
 
-sealed class Category(val type: Type) {
-    object Normal : Category(Type.NORMAL)
-    object Dump : Category(Type.DUMP)
+enum class Category {
+    NORMAL, DUMP;
 
-    fun getCompareType(): Type {
-        return when (this) {
-            Normal -> Type.DUMP
-            Dump -> Type.NORMAL
-        }
-    }
-}
-
-enum class Type {
-    NORMAL, DUMP
+    fun opposite(): Category = if (this == NORMAL) DUMP else NORMAL
 }
